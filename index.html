@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- CITY DETAILS FETCHING -->
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://kit.fontawesome.com/341e5a341e.js" crossorigin="anonymous"></script>
+</head>
+
+<style>
+  .card {
+    background-color: rgba(255, 255, 255, 0.144);
+  }
+</style>
+
+<body style="background-color: rgba(127, 255, 212, 0.548);">
+
+  <div class="container-fluid">
+    <center>
+      <h2 class="mt-3" style="color: rgb(9, 57, 99); font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; font-weight: bolder; font-size: xx-large;">WEATHER REPORT</h2>
+      <div class="form-outline col-lg-3 col-md-4 col-sm-12 mt-3 mb-2">
+        <input type="text" placeholder="Enter city name" id="city">
+        <button type="button" class="btn btn-dark" onclick="fetchDetails()">
+          <i class="fas fa-search"></i>
+        </button>
+    </center>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row">
+      <center>
+        <div class="col-lg-3 col-md-4 col-sm-12" id="one"></div>
+      </center>
+    </div>
+    <div class="container-fluid">
+    </div>
+    <div class="row" id="two">
+      <div class="col-lg-3 col-md-4 col-sm-12"></div>
+    </div>
+    <div class="row" id="three">
+      <div class="col-lg-3 col-md-4 col-sm-12"></div>
+    </div>
+  </div>
+  </div>
+</body>
+
+<script>
+
+  function displayValues(city) {
+    let city_name = city.list[0].name
+    let icon = city.list[0].weather[0].icon
+    let main = city.list[0].weather[0].main
+    let description = city.list[0].weather[0].description
+    let temptre = Math.floor(city.list[0].main.temp) + ' &#8451'
+    let feelslike = Math.floor(city.list[0].main.feels_like) + ' &#8451'
+    let temptre_min = Math.floor(city.list[0].main.temp_min) + ' &#8451'
+    let temptre_max = Math.floor(city.list[0].main.temp_max) + ' &#8451'
+    let latitude = city.list[0].coord.lat
+    let longitude = city.list[0].coord.lon
+    let humidity = city.list[0].main.humidity + '%'
+    let wind = city.list[0].wind.speed + 'km/hr'
+    let iconUrl = "http://openweathermap.org/img/wn/" + icon + ".png";
+    console.log(city_name, iconUrl, main, description, temptre, feelslike,
+      temptre_min, temptre_max, latitude, longitude, humidity, wind);
+
+    let first = `<div class="card p-2 mb-2 shadow p-3 mb-5 rounded">
+    <p style="font-size: 30px; font-family: Arial, Helvetica, sans-serif; font-weight: bold;"> ${city_name} </p>
+    <h5 style="font-weight: bolder; font-size:30px">${temptre}</h5>
+    <center><img src="${iconUrl}" width="100px" ></center>
+    <h5 style="font-weight: bold; font-size: 24px; font-family: 'Times New Roman', Times, serif;">${main}</h5> 
+    <h6 style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; font-weight: lighter; font-size: 20px;">"${description}"</h6> 
+    </div>`
+
+    let second = `<div class="card mb-3 mx-auto shadow p-3 mb-5 rounded" style="max-width: 250px;">
+      <div class="row g-0">
+        <div class="col-md-4 mt-4">
+          <img
+            src="./img/feels like.png"
+            alt="..."
+            class="img-fluid"
+          />
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title" style="font-weight: normal; font-size: 18px; font-family: 'Times New Roman', Times, serif;">Feels like Temperature</h5>
+            <p class="card-text" style="font-weight: bolder; font-size:22px">${feelslike}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-3 mx-auto shadow p-3 mb-5 rounded" style="max-width: 250px;">
+      <div class="row g-0">
+        <div class="col-md-4 mt-4">
+          <img
+            src="./img/thermometer.png"
+            alt="..."
+            class="img-fluid"
+          />
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title" style="font-weight: normal; font-size: 18px; font-family: 'Times New Roman', Times, serif;">Minimum Temperature</h5>
+            <p class="card-text" style="font-weight: bolder; font-size:22px">${temptre_min}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-3 mx-auto shadow p-3 mb-5 rounded" style="max-width: 250px;">
+      <div class="row g-0">
+        <div class="col-md-4 mt-4">
+          <img
+            src="./img/temperature.png"
+            alt="..."
+            class="img-fluid"
+          />
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title" style="font-weight: normal; font-size: 18px; font-family: 'Times New Roman', Times, serif;">Maximum Temperature</h5>
+            <p class="card-text" style="font-weight: bolder; font-size:22px">${temptre_max}</p>
+          </div>
+        </div>
+      </div>
+    </div>`
+
+
+    let third = `<div class="card mb-3 mx-auto shadow p-3 mb-5 rounded" style="max-width: 250px;">
+      <div class="row g-0">
+        <div class="col-md-4 mt-2">
+          <img
+            src="./img/latitude.png"
+            alt="..."
+            class="img-fluid"
+          />
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title" style="font-weight: normal; font-size: 18px; font-family: 'Times New Roman', Times, serif;">Latitude</h5>
+            <p class="card-text" style="font-weight: bolder; font-size:22px">${latitude}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-3 mx-auto shadow p-3 mb-5 rounded" style="max-width: 250px;">
+      <div class="row g-0">
+        <div class="col-md-4 mt-2">
+          <img
+            src="./img/longitude.png"
+            alt="..."
+            class="img-fluid"
+          />
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title" style="font-weight: normal; font-size: 18px; font-family: 'Times New Roman', Times, serif;">Longitude</h5>
+            <p class="card-text" style="font-weight: bolder; font-size:22px">${longitude}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+   <div class="card mb-3 mx-auto shadow p-3 mb-5 rounded" style="max-width: 250px;">
+      <div class="row g-0">
+        <div class="col-md-4 mt-2">
+          <img
+            src="./img/humidityff.png"
+            alt="..."
+            class="img-fluid"
+          />
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title" style="font-weight: normal; font-size: 18px; font-family: 'Times New Roman', Times, serif;">Humidity</h5>
+            <p class="card-text" style="font-weight: bolder; font-size:22px">${humidity}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="card mb-3 mx-auto shadow p-3 mb-5 rounded" style="max-width: 250px;">
+      <div class="row g-0">
+        <div class="col-md-4 mt-2">
+          <img
+            src="./img/wind.png"
+            alt="..."
+            class="img-fluid"
+          />
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title" style="font-weight: normal; font-size: 18px; font-family: 'Times New Roman', Times, serif;">Wind Speed</h5>
+            <p class="card-text" style="font-weight: bolder; font-size:22px">${wind}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    `
+
+
+
+    document.querySelector("#one").innerHTML = first
+    document.querySelector("#two").innerHTML = second
+    document.querySelector("#three").innerHTML = third
+  }
+
+  function fetchDetails() {
+    let city_name = city.value;
+    let api_key = "dd0152d6c25dfb26687b7ad5688af0c8"
+    let url = `https://api.openweathermap.org/data/2.5/find?q=${city_name}&units=metric&appid=${api_key}`
+    fetch(url).then(res => {
+      if (!(res.ok)) {
+        throw new Error("Fetch failed")
+      }
+      else {
+        return res.json()
+      }
+    }).then(data => displayValues(data)).catch(error => alert(error.message))
+  }
+</script>
+
+</html>
